@@ -2,20 +2,39 @@
 import re
 
 class MyString:
-    def __init__(self, value):
-        if not isinstance(value, str):
-            print("The value must be a string.")
+    def __init__(self,value = ''):
         self.value = value
+       
+    def get_value(self):
+        return self._value
+ 
+    def set_value(self,value):
+        if isinstance(value, str):
+            self._value = value
+        else:
+            print('The value must be a string.')
+
+    value = property(get_value, set_value)
 
     def is_sentence(self):
-        return self.value.endswith('.')
-
+        return True if self._value.endswith('.') else False
+   
     def is_question(self):
-        return self.value.endswith('?')
-
+        return True if self._value.endswith('?') else False
+   
     def is_exclamation(self):
-        return self.value.endswith('!')
+        return True if self._value.endswith('!') else False
 
     def count_sentences(self):
-        sentences = [s.strip() for s in re.split(r'[.!?]', self.value) if s.strip()]
-        return len(sentences)
+        sentence = self._value
+        char = ['.','!','?']
+        for i in sentence:
+            if i in char:
+                sentence = sentence.replace(i,'-')
+        result = re.split('-',sentence)
+        clean = [word for word in result if word != '']
+        length = len(clean)
+        
+
+        
+        return length
